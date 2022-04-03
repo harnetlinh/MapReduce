@@ -15,19 +15,13 @@ import java.util.List;
 
 
 public class RMIServiceImpl extends UnicastRemoteObject implements RMIService {
+    
+    private nodeConfig nodeConfigs;
     public RMIServiceImpl() throws RemoteException {
-//        try {
-//           Calculation.array();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
-//    public double plusArray() throws IOException {
-//        double e = 0;
-//        e = AppManager.plusArray();
-//        return e;
-//    }
+
     public Boolean sendFile(List<String> files) throws IOException, InterruptedException{
         File pathFile = null;
 //        List<String>  files = new ArrayList<String>();
@@ -63,60 +57,22 @@ public class RMIServiceImpl extends UnicastRemoteObject implements RMIService {
         return true;
     };
 
-    public String CreateCalculation(String scriptPath) throws Exception {
-        //TODO: put task to AppManager
-        AppManager.requestCalculation(scriptPath);
-        //TODO: return string confirm to client
-        return "Calculation Created";
+    public String setClusterConfig(int numberOfNodes){
+        // check if a cluster already exits
+        // destroy if yes
+        // create cluster
+        this.nodeConfigs = new nodeConfig(numberOfNodes);
+        return "Set config successfully"
+
     };
 
-//    public double plus2Number() {
-//        double c = 0;
-//        try {
-//            c = AppManager.plus2Number();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return c;
-//    }
-//
-//    public double minus2Number() {
-//        double c = 0;
-//        try {
-//            c = AppManager.minus2Number();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return c;
-//    }
-//
-//    public double multiple2Number() {
-//        double c = 0;
-//        try {
-//            c = AppManager.multiple2Number();
-//        } catch (RemoteException e) {
-//            e.printStackTrace();
-//        }
-//        return c;
-//    }
-//
-//    public double divide2Number() throws Exception {
-//        double c;
-//        c = AppManager.divide2Number();
-//        if (AppManager.h == 0) {
-//            throw new Exception("Divided by zero!");
-//        } else {
-//            return c;
-//        }
-//    }
-//
-//    public String server_ping() throws Exception{
-//        String c;
-//        c = AppManager.server_ping();
-//        return c;
-//    }
+    public ArrayList<node> getNodesInfo(){
+        return this.nodeConfigs.getNodes();
+    };
+    
+    public void createNodes(){
+        
+    }
 
-//    public String[] getNum() {
-//        return array;
-//    }
+
 }

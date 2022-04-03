@@ -42,9 +42,14 @@ public class Server {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Server starting...");
+        
+        //Create multiple Nodes from registries & ports
         startRegistry();
         registerObject(RMIService.class.getSimpleName(), new RMIServiceImpl());
+        
+        
         // Server start and listen request from Client.
         System.out.println("Server started!");
     }
+    
 }
