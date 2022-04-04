@@ -1,8 +1,8 @@
-package server;
+package cluster;
 
-import server.service.RMIService;
-import server.service.DaemonService;
-import server.node;
+//import cluster.service.RMIService;
+import cluster.service.DaemonService;
+
 
 
 import java.util.ArrayList;
@@ -30,9 +30,9 @@ public class nodeConfig {
 
     }
 
-    public generateClusterConfig(int numberOfNode_){
-        port_RMI = 100010;
-        port_Socket = 200010;
+    public void generateClusterConfig(int numberOfNode_){
+        int port_RMI = 100010;
+        int port_Socket = 200010;
         for (int i = 0; i < numberOfNode_; i++) { 
             port_RMI +=i;
             port_Socket +=i;
@@ -40,7 +40,7 @@ public class nodeConfig {
                 break;
             }    
             
-            Node node_ = new Node();
+            node node_ = new node();
             node_.setPortRMI(port_RMI);
             node_.setPortSocket(port_Socket);
             this.allPortsUsed.add(port_RMI);

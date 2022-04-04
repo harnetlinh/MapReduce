@@ -1,7 +1,11 @@
+package cluster;
+
+import cluster.service.MapReduceService;
+
 import java.util.*;
 import java.io.*;
 
-public class WordCount implements MapReduce {
+public class WordCount implements MapReduceService {
 
      public static final String SEPARATOR = " - ";
 

@@ -1,11 +1,18 @@
+package cluster.service;
 
+import cluster.service.CallBackImpl;
+import cluster.service.CallBackService;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.Map;
 
 public interface DaemonService extends Remote {
     
-    public void call(Map m, String blockin, String blockout, CallBack cb) throws RemoteException;
+    public void call(Map m, String blockin, String blockout, CallBackService cb) throws RemoteException;
     
-    public String uploadData();
-    public String downloadData();
+    public String uploadData() throws RemoteException;
+    public String downloadData() throws RemoteException;
    
 
 }

@@ -1,22 +1,29 @@
-package cluster;
-import cluster.node;
-import cluster.nodesConfig;
-import cluster.MapReduceService;
+package cluster.service;
 
+//import cluster.service.CallBackService;
+//import cluster.service.DaemonService;
+
+import java.rmi.AlreadyBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.io.*;
 
 public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     
-    private static final int PORT;
+    private static int PORT = 10010;
     private static Registry registry = null;
 
-    public DaemonImpl(int port_)throws RemoteException{
+    public DaemonImpl(int port_)throws RemoteException {
+        super();
         //Construct a daemon instance with node
         this.PORT = port_;
     }
     @Override
-    public void call(Map m, String blockin, String blockout, CallBack cb) throws RemoteException{
+    public void call(Map m, String blockin, String blockout, CallBackService cb) throws RemoteException{
         // getting node
         // Callbacksetup
         // Call map exec of this node. Threading
@@ -24,9 +31,13 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         // Call reduce exec
     }
     @Override
-    public String uploadData(){};
+    public String uploadData()throws RemoteException{
+        return "Upload done";
+    };
     @Override
-    public String downloadData(){};
+    public String downloadData()throws RemoteException{
+        return "Download done";
+    };
 
 	public static void startRegistry() throws RemoteException {
         try {
@@ -49,11 +60,12 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
                 + remoteObj.getClass().getName() + "[" + remoteObj + "]");
     }
 
-    public static void  runRMI () throws RemoteException, AlreadyBoundException {
+    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
         //register object
         System.out.println("Server starting...");
         startRegistry();
-        registerObject(Pad.class.getSimpleName(), new PadImpl());
+        System.out.println("here");
+        registerObject("Daemon 1", new DaemonImpl(PORT));
         // Server start and listen request from Client.
         System.out.println("Server started!");
     }

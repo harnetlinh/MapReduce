@@ -1,7 +1,7 @@
-package client;
+package origin;
 
 import client.model.ClientConfig;
-import server.service.RMIService;
+//import server.service.RMIService;
 
 import java.io.*;
 import java.rmi.registry.Registry;
