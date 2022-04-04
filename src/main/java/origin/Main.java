@@ -1,0 +1,65 @@
+package origin;
+
+import cluster.service.DaemonImpl;
+import cluster.service.DaemonService;
+import origin.model.ClientConfig;
+
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+//import cluster.service.DaemonImpl.registerObject;
+//import cluster.service.DaemonImpl.startRegistry;
+
+
+public class Main {
+    //
+//    private static final String HOST = "localhost";
+//    private static final int PORT = 1099;
+//    private static final ClientConfig clientConfig = Client.getClientConfig(HOST, PORT);
+    public static DaemonService serviceLookup(String host, int port, String name) throws NotBoundException, RemoteException {
+        Registry registry = LocateRegistry.getRegistry(host, port);
+        DaemonService service = (DaemonService) registry
+                .lookup(name);
+        return service;
+    }
+
+    public static void  main (String args[]) throws RemoteException, AlreadyBoundException, NotBoundException {
+        //register object
+        System.out.println("Server starting...");
+        DaemonImpl node_1 = new DaemonImpl(10010);
+        node_1.startRegistry();
+        System.out.println("here");
+        node_1.registerObject("Daemon 1", node_1);
+        // Server start and listen request from Client.
+        System.out.println("Server started!");
+
+        DaemonService node1_ = null;
+        node1_ = serviceLookup("localhost", 10010, "Daemon 1");
+        System.out.println(node1_.nodePing());
+
+        System.out.println("Server starting...");
+        DaemonImpl node_2 = new DaemonImpl(10011);
+        node_2.startRegistry();
+        System.out.println("here");
+        node_2.registerObject("Daemon 2", node_2);
+        // Server start and listen request from Client.
+        System.out.println("Server started!");
+
+
+
+        DaemonService node2_ = null;
+        node2_ = serviceLookup("localhost", 10011, "Daemon 2");
+        System.out.println(node2_.nodePing());
+
+        DaemonService node3_ = null;
+        node3_ = serviceLookup("localhost", 10010, "Daemon 1");
+        System.out.println(node3_.nodePing());
+    }
+    }
+
