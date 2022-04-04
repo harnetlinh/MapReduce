@@ -27,8 +27,12 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         
         
         // Call map exec of this node. Threading
-        WordCount wc = new WordCount();
-        wc.executeMap(blockin, blockout);
+        Thread wc
+                = new Thread(new WordCount(blockin,blockout));
+            wc.start();
+        
+        // WordCount wc = new WordCount();
+        // wc.executeMap(blockin, blockout);
         // waiting for finishing
         
         // Callback complete
