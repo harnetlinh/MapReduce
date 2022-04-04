@@ -24,11 +24,14 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     }
     @Override
     public void call(Map m, String blockin, String blockout, CallBackService cb) throws RemoteException{
-        // getting node
-        // Callbacksetup
+        
+        
         // Call map exec of this node. Threading
+        WordCount wc = new WordCount();
+        wc.executeMap(blockin, blockout);
         // waiting for finishing
-        // Call reduce exec
+        
+        // Callback complete
     }
     @Override
     public String uploadData()throws RemoteException{

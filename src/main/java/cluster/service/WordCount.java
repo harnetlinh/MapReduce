@@ -9,7 +9,7 @@ public class WordCount implements MapReduceService {
 
      public static final String SEPARATOR = " - ";
 
-
+     @Override
      public void executeMap(String blockin, String blockout) {
           // read from blockin, compute count table, write to blockout		
           HashMap<String,Integer> hm = new HashMap<String,Integer>();
@@ -38,7 +38,7 @@ public class WordCount implements MapReduceService {
           }
      }
 
-
+     @Override
      public void executeReduce(Collection<String> blocks, String finalresults) {
           // read all files in blocks, merge and write to finalresults
           HashMap<String,Integer> hm = new HashMap<String,Integer>();
@@ -69,15 +69,15 @@ public class WordCount implements MapReduceService {
      }
 
      
-     public static void main(String[] args) {
-               WordCount wc = new WordCount();
-     /*
-          wc.executeMap("data.txt", "result.txt");	
-     */
-          Collection<String> blocks = new ArrayList<String>();
-          blocks.add("result1.txt");
-          blocks.add("result2.txt");
-          wc.executeReduce(blocks, "finalresult.txt");
+     // public static void main(String[] args) {
+     //           WordCount wc = new WordCount();
+     // /*
+     //      wc.executeMap("data.txt", "result.txt");	
+     // */
+     //      Collection<String> blocks = new ArrayList<String>();
+     //      blocks.add("result1.txt");
+     //      blocks.add("result2.txt");
+     //      wc.executeReduce(blocks, "finalresult.txt");
        
-     }
+     // }
 }
