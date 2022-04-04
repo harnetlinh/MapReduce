@@ -1,6 +1,6 @@
-package client.model;
+package origin.model;
 
-import server.service.RMIService;
+
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -36,10 +36,10 @@ public class ClientConfig {
         this.port = port;
     }
 
-    public RMIService serviceLookup() throws NotBoundException, RemoteException {
-        Registry registry = LocateRegistry.getRegistry(host, port);
-        RMIService service = (RMIService) registry
-                .lookup(RMIService.class.getSimpleName());
-        return service;
-    }
+//    public RMIService serviceLookup() throws NotBoundException, RemoteException {
+//        Registry registry = LocateRegistry.getRegistry(host, port);
+//        RMIService service = (RMIService) registry
+//                .lookup(RMIService.class.getSimpleName());
+//        return service;
+//    }
 }

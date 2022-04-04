@@ -14,8 +14,8 @@ import java.io.*;
 
 public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     
-    private static int PORT = 10010;
-    private static Registry registry = null;
+    private int PORT = 10010;
+    private Registry registry = null;
 
     public DaemonImpl(int port_)throws RemoteException {
         super();
@@ -38,8 +38,12 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     public String downloadData()throws RemoteException{
         return "Download done";
     };
+    @Override
+    public int nodePing()throws RemoteException{
+        return PORT;
+    }
 
-	public static void startRegistry() throws RemoteException {
+	public void startRegistry() throws RemoteException {
         try {
             registry = LocateRegistry.getRegistry(PORT);
             registry.list();
@@ -49,7 +53,7 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         }
 
     }
-    public static void registerObject(String name, Remote remoteObj)
+    public void registerObject(String name, Remote remoteObj)
             throws RemoteException, AlreadyBoundException {
         // Registry object on Register.
         // Assign name.
@@ -60,14 +64,14 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
                 + remoteObj.getClass().getName() + "[" + remoteObj + "]");
     }
 
-    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
-        //register object
-        System.out.println("Server starting...");
-        startRegistry();
-        System.out.println("here");
-        registerObject("Daemon 1", new DaemonImpl(PORT));
-        // Server start and listen request from Client.
-        System.out.println("Server started!");
-    }
+//    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
+//        //register object
+//        System.out.println("Server starting...");
+//        startRegistry();
+//        System.out.println("here");
+//        registerObject("Daemon 1", new DaemonImpl(PORT));
+//        // Server start and listen request from Client.
+//        System.out.println("Server started!");
+//    }
     
 }

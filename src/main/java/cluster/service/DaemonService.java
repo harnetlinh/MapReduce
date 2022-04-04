@@ -13,6 +13,8 @@ public interface DaemonService extends Remote {
     
     public String uploadData() throws RemoteException;
     public String downloadData() throws RemoteException;
+
+    public int nodePing()throws RemoteException;
    
 
 }
