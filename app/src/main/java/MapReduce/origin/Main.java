@@ -52,12 +52,12 @@ public class Main {
             System.out.println("DONE INIT SOCKET");
 
             //Ping test
-             _node_service = serviceLookup("localhost", node.getPortRMI(), "Daemon-" + node.getPortRMI());
-             System.out.println(_node_service.nodePing());
+            _node_service = serviceLookup("localhost", node.getPortRMI(), "Daemon-" + node.getPortRMI());
+            System.out.println(_node_service.nodePing());
 
         }
         System.out.println("------------------------------------------------------");
-        
+
         Split.splitFile();
         // start send file
         for (node node : nodes) {

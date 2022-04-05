@@ -50,7 +50,7 @@ public class Launch {
             System.out.println("Client connected");
             InputStream inputStream = socket.getInputStream();
             String fileName = working_Dir + File.separator + "server_storage"
-            + File.separator + "received" + File.separator + "data" + node.getPortSocket() + ".txt";
+                    + File.separator + "received" + File.separator + "data" + node.getPortSocket() + ".txt";
             OutputStream outputStream = new FileOutputStream(fileName);
             System.out.println("Receiving data...");
             while ((dataReceived = inputStream.read(bytes)) > 0) {
@@ -64,7 +64,7 @@ public class Launch {
             //TODO: handle exception
             e.printStackTrace();
         }
-        
+
     }
 
 }
