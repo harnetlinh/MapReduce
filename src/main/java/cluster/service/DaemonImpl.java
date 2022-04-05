@@ -91,11 +91,11 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
             byte[] bytes = new byte[SIZE_PER_READING];
             int dataReceived = 0;
 
-            serverSocket = new ServerSocket(PORT);
+            serverSocket = new ServerSocket(this.PORT);
             socket = serverSocket.accept();
 
             inputStream = socket.getInputStream();
-            outputStream = new FileOutputStream(working_Dir+"\\server_storage\\received\\data"+this.PORT_SOCKET+".txt");
+            outputStream = new FileOutputStream(working_Dir+File.separator+"server_storage"+File.separator+"received"+File.separator+"data"+this.PORT_SOCKET+".txt");
 
             while ((dataReceived = inputStream.read(bytes)) > 0) {
                 outputStream.write(bytes, 0, dataReceived);
