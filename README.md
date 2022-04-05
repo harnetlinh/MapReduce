@@ -58,15 +58,6 @@ Open project folder:
 
 ### To run project
 ```
-gradle run
+./gradlew run
 ```
 
-### To run test
-```
-gradle test
-```
-
-Check the test result in 
-```
-build/reports/tests/test/
-```
