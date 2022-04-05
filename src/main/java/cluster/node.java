@@ -1,26 +1,39 @@
 package cluster;
 
+import java.net.ServerSocket;
 
-public class node{
+public class node {
     private int portRMI;
     private int portSocket;
     private String ip = "localhost";
+    private ServerSocket serverSocket = null;
 
-    public int getPortRMI(){
+    public int getPortRMI() {
         return portRMI;
     }
-    public int getPortSocket(){
+
+    public int getPortSocket() {
         return portSocket;
     }
-    public String getIp(){
+
+    public String getIp() {
         return ip;
     }
 
-    public void setPortRMI(int port){
-        this.portRMI = port; 
+    public ServerSocket getServerSocket() {
+        return serverSocket;
     }
-    public void setPortSocket(int port_){
-        this.portSocket = port_; 
+
+    public void setPortRMI(int port) {
+        this.portRMI = port;
+    }
+
+    public void setPortSocket(int port_) {
+        this.portSocket = port_;
+    }
+
+    public void setServerSocket(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
     }
 
 }

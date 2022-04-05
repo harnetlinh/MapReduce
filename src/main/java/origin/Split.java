@@ -28,7 +28,7 @@ public class Split {
     // public static final Integer POST = 4444;
     public static final Integer SIZE_PER_READING = 64 * 1024;
 
-    public static void send(ArrayList<node> nodes) {
+    public static void send(node node) {
         try {
             // ArrayList<node> nodes = nodeConfig.getNodes();
 
@@ -37,11 +37,11 @@ public class Split {
             String sourceFilePath = working_Dir + File.separator + "server_storage" + File.separator + "result";
             // String destinationFilePath = working_Dir + "\\server_storage\\target";
             int count = 0;
-            for (node n : nodes) {
+            // for (node n : nodes) {
                 Socket socket = null;
                 int DataSend;
                 byte[] bytes = new byte[SIZE_PER_READING];
-                socket = new Socket(n.getIp(), n.getPortSocket());
+                socket = new Socket(node.getIp(), node.getPortSocket());
                 File file = new File(sourceFilePath + count + ".txt");
                 InputStream inputStream = new FileInputStream(file);
                 OutputStream outputStream = socket.getOutputStream();
@@ -51,7 +51,7 @@ public class Split {
                 inputStream.close();
                 outputStream.close();
                 socket.close();
-            }
+            // }
 
         } catch (Exception e) {
             e.printStackTrace();

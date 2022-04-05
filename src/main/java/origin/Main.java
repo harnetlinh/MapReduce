@@ -45,19 +45,24 @@ public class Main {
             DaemonImpl _daemon = new DaemonImpl(node.getPortRMI(), node.getPortSocket());
             _daemon.startRegistry();
             _daemon.registerObject("Daemon-" + node.getPortRMI(), _daemon);
-            _daemon.initSocket();
-            DaemonService _node_service = null;
+            node.setServerSocket(_daemon.initSocket());
+            System.out.println("DONE INIT SOCKET");
+            // DaemonService _node_service = null;
             //Ping test
-            _node_service = serviceLookup("localhost", node.getPortRMI(), "Daemon Service " + node.getPortRMI());
-            System.out.println(_node_service.nodePing());
+            // _node_service = serviceLookup("localhost", node.getPortRMI(), "Daemon Service " + node.getPortRMI());
+            // System.out.println(_node_service.nodePing());
 
         }
         System.out.println("------------------------------------------------------");
         
-        
-        // start send file
         Split.splitFile();
-        Split.send(nodes);
+        // start send file
+        for (node node : nodes) {
+            Split.send(node);
+            Launch.download(node);
+        }
+        
+        
 
         //Launch call here
         Launch.execNodes(nodes);
