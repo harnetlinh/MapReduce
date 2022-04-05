@@ -13,6 +13,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -93,8 +94,9 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
             OutputStream outputStream = null;
             byte[] bytes = new byte[SIZE_PER_READING];
             int dataReceived = 0;
-
-            serverSocket = new ServerSocket(this.PORT);
+            serverSocket = new ServerSocket();
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(PORT_SOCKET));
             socket = serverSocket.accept();
 
             inputStream = socket.getInputStream();
@@ -105,7 +107,7 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
             }
             outputStream.close();
             inputStream.close();
-            socket.close();
+            // socket.close();
             serverSocket.close();
             // File file = new
             // File(working_Dir+"\\server_storage\\received\\data"+this.PORT_SOCKET+".txt");
