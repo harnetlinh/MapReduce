@@ -31,8 +31,8 @@ public class nodeConfig {
     }
 
     public void generateClusterConfig(int numberOfNode_){
-        int port_RMI = 100010;
-        int port_Socket = 200010;
+        int port_RMI = 10010;
+        int port_Socket = 20010;
         for (int i = 0; i < numberOfNode_; i++) { 
             port_RMI +=i;
             port_Socket +=i;

@@ -32,10 +32,11 @@ public class Main {
     public static void  main (String args[]) throws RemoteException, AlreadyBoundException, NotBoundException {
         //register object
         System.out.println("Server starting...");
-        DaemonImpl node_1 = new DaemonImpl(10010);
+        DaemonImpl node_1 = new DaemonImpl(10010, 11000);
         node_1.startRegistry();
         System.out.println("here");
         node_1.registerObject("Daemon 1", node_1);
+        node_1.initSocket();
         // Server start and listen request from Client.
         System.out.println("Server started!");
 
@@ -44,10 +45,18 @@ public class Main {
         System.out.println(node1_.nodePing());
 
         System.out.println("Server starting...");
-        DaemonImpl node_2 = new DaemonImpl(10011);
+        DaemonImpl node_2 = new DaemonImpl(10011, 12000);
         node_2.startRegistry();
         System.out.println("here");
         node_2.registerObject("Daemon 2", node_2);
+        // Server start and listen request from Client.
+        System.out.println("Server started!");
+
+        System.out.println("Server starting...");
+        DaemonImpl node_3 = new DaemonImpl(10012, 13000);
+        node_3.startRegistry();
+        System.out.println("here");
+        node_3.registerObject("Daemon 3", node_3);
         // Server start and listen request from Client.
         System.out.println("Server started!");
 

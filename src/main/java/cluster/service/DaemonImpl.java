@@ -11,16 +11,20 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     
     private int PORT = 10010;
     private Registry registry = null;
+    private int PORT_SOCKET = 10010;
 
-    public DaemonImpl(int port_)throws RemoteException {
+    public DaemonImpl(int port_, int port_socket_)throws RemoteException {
         super();
         //Construct a daemon instance with node
         this.PORT = port_;
+        this.PORT_SOCKET = port_socket_;
     }
     @Override
     public void call(Map m, String blockin, String blockout, CallBackService cb) throws RemoteException{
@@ -62,6 +66,30 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         registry.rebind(name, remoteObj);
         System.out.println("Registered: " + name + " -> "
                 + remoteObj.getClass().getName() + "[" + remoteObj + "]");
+    }
+    public void initSocket() throws RemoteException {
+        String working_Dir = System.getProperty("user.dir");
+        try {
+            ServerSocket serverSocket = new ServerSocket(this.PORT_SOCKET);
+            File file = new File(working_Dir+"\\server_storage\\received\\data"+this.PORT_SOCKET+".txt");
+            while (true) {
+                System.out.println("Waiting for client on port " + this.PORT_SOCKET);
+                Socket socket = serverSocket.accept();
+                System.out.println("Just connected to " + socket.getRemoteSocketAddress());
+                byte[] mybytearray = new byte[(int) file.length()];
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+                bis.read(mybytearray, 0, mybytearray.length);
+                OutputStream os = socket.getOutputStream();
+                os.write(mybytearray, 0, mybytearray.length);
+                os.flush();
+                socket.close();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+        
     }
 
 //    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
