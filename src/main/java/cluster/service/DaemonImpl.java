@@ -36,7 +36,7 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         // Call map exec of this node. Threading
         Thread wc = new Thread(new WordCount(blockin,blockout,cb));
         wc.start();
-        cb.completed();
+//        cb.completed();
 
         
         // WordCount wc = new WordCount();
@@ -46,11 +46,7 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         // Callback complete
     }
 
-    @Override
-    public CallBackService createCallback() throws RemoteException{
-        CallBackService cb =  new CallBackImpl();
-        return cb;
-    };
+
 
     @Override
     public String uploadData()throws RemoteException{
@@ -138,6 +134,13 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
 //        registerObject("Daemon 1", new DaemonImpl(PORT));
 //        // Server start and listen request from Client.
 //        System.out.println("Server started!");
+//        DaemonService dae = new DaemonImpl(10010, 20010);
+//        CallBackService cb = null;
+//        Map m = null;
+//        String blockin = "asd.txt";
+//        String blockout = "null";
+//        dae.call( m,  blockin,  blockout,  cb);
+
 //    }
     
 }

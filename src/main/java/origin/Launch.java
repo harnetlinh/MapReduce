@@ -18,7 +18,7 @@ public class Launch {
 
 
     ArrayList<node> nodes ;
-    public void execNodes(ArrayList<node> nodes) throws NotBoundException, RemoteException {
+    public static void execNodes(ArrayList<node> nodes) throws NotBoundException, RemoteException {
         DaemonService _node_service = null;
 
 
@@ -30,9 +30,16 @@ public class Launch {
 
             //Callback create
             CallBackService cb = null;
+            Map m = null;
+            String blockin = "asd";
+            String blockout = "null";
             try {
 
-                cb = (CallBackService) new CallBackImpl(nodesNumber);
+                cb = (CallBackService) new CallBackImpl(2);
+
+
+
+                _node_service.call( m,  blockin,  blockout,  cb);
                 ((CallBackImpl) cb).waitforall();
 
             } catch (RemoteException ex) {
@@ -41,12 +48,11 @@ public class Launch {
                 e.printStackTrace();
             }
 
-            _node_service.call(Map m, String blockin, String blockout, CallBackService cb);
 
-            //Call on nodes
+            //TODO:result download here
 
         }
-        // wait all call back
+
     }
     public static DaemonService serviceLookup(String host, int port, String name)
             throws NotBoundException, RemoteException {

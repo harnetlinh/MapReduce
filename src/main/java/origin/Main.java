@@ -37,7 +37,7 @@ public class Main {
     public static void main(String args[]) throws IOException, AlreadyBoundException, NotBoundException {
         // register object
 
-        nodeConfig nodeConfig = new nodeConfig(3);
+        nodeConfig nodeConfig = new nodeConfig(2);
         ArrayList<node> nodes = nodeConfig.getNodes();
 
         //Create nodes RMI and connect to all of them

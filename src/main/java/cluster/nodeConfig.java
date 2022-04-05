@@ -16,7 +16,7 @@ public class nodeConfig {
     private String host;
     private int port;
     //list of port RMI, port socket
-    private int numberOfNodes = 3; //default number
+    private int numberOfNodes = 2; //default number
     static ArrayList<node> cluster = new ArrayList<node>();
     ArrayList<Integer> allPortsUsed;
     public nodeConfig(){
