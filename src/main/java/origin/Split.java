@@ -33,7 +33,7 @@ public class Split {
 			
             String working_Dir = System.getProperty("user.dir");
             
-            String sourceFilePath = working_Dir + "\\server_storage\\result";
+            String sourceFilePath = working_Dir + File.separator+"server_storage"+File.separator+"result";
             // String destinationFilePath = working_Dir + "\\server_storage\\target";
             int count = 0;
 			for (node n : nodes) {
