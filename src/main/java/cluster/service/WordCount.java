@@ -90,7 +90,7 @@ public class WordCount implements MapReduceService, Runnable {
                      "Thread " + Thread.currentThread().getId()
                              + " is running");
              try {
-                 for (int i = 0; i <= 10; i = i + 1) {
+                 for (int i = 0; i <= 3; i = i + 1) {
                      System.out.println("[Thread " + Thread.currentThread().getId()+"] processing ...");
                      TimeUnit.SECONDS.sleep(1);
                  }

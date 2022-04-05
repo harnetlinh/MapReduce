@@ -11,6 +11,7 @@ public class CallBackImpl extends UnicastRemoteObject implements CallBackService
         nbnode = n; 
     } 
     public synchronized void completed() throws RemoteException {
+        System.out.println("notify");
         notify();
     }
     public synchronized void waitforall() throws InterruptedException {
