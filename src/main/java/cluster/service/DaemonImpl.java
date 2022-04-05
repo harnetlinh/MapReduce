@@ -19,6 +19,7 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     private int PORT = 10010;
     private Registry registry = null;
     private int PORT_SOCKET = 10010;
+    public final Integer SIZE_PER_READING = 64 * 1024;
 
     public DaemonImpl(int port_, int port_socket_)throws RemoteException {
         super();
@@ -77,20 +78,40 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     public void initSocket() throws RemoteException {
         String working_Dir = System.getProperty("user.dir");
         try {
-            ServerSocket serverSocket = new ServerSocket(this.PORT_SOCKET);
-            File file = new File(working_Dir+"\\server_storage\\received\\data"+this.PORT_SOCKET+".txt");
-            while (true) {
-                System.out.println("Waiting for client on port " + this.PORT_SOCKET);
-                Socket socket = serverSocket.accept();
-                System.out.println("Just connected to " + socket.getRemoteSocketAddress());
-                byte[] mybytearray = new byte[(int) file.length()];
-                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-                bis.read(mybytearray, 0, mybytearray.length);
-                OutputStream os = socket.getOutputStream();
-                os.write(mybytearray, 0, mybytearray.length);
-                os.flush();
-                socket.close();
+            ServerSocket serverSocket = null;
+            Socket socket = null;
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            byte[] bytes = new byte[SIZE_PER_READING];
+            int dataReceived = 0;
+
+            serverSocket = new ServerSocket(PORT);
+            socket = serverSocket.accept();
+
+            inputStream = socket.getInputStream();
+            outputStream = new FileOutputStream(working_Dir+"\\server_storage\\received\\data"+this.PORT_SOCKET+".txt");
+
+            while ((dataReceived = inputStream.read(bytes)) > 0) {
+                outputStream.write(bytes, 0, dataReceived);
             }
+            outputStream.close();
+            inputStream.close();
+            socket.close();
+            serverSocket.close();
+            // File file = new File(working_Dir+"\\server_storage\\received\\data"+this.PORT_SOCKET+".txt");
+
+            // while (true) {
+            //     System.out.println("Waiting for client on port " + this.PORT_SOCKET);
+            //     Socket socket = serverSocket.accept();
+            //     System.out.println("Just connected to " + socket.getRemoteSocketAddress());
+            //     byte[] mybytearray = new byte[(int) file.length()];
+            //     BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+            //     bis.read(mybytearray, 0, mybytearray.length);
+            //     OutputStream os = socket.getOutputStream();
+            //     os.write(mybytearray, 0, mybytearray.length);
+            //     os.flush();
+            //     socket.close();
+            // }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

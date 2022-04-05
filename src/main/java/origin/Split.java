@@ -1,6 +1,8 @@
 package origin;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +23,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 
 public class Split {
+    // public static final String HOST = "127.0.0.1";
+	// public static final Integer POST = 4444;
+	public static final Integer SIZE_PER_READING = 64 * 1024;
 
     public static void send(ArrayList<node> nodes) {
         try {
@@ -32,14 +37,19 @@ public class Split {
             // String destinationFilePath = working_Dir + "\\server_storage\\target";
             int count = 0;
 			for (node n : nodes) {
-                byte[] mybytearray = new byte[1024];                
-				Socket s = new Socket("localhost", 11000);
-				InputStream is = s.getInputStream();
-				FileOutputStream fos = new FileOutputStream(sourceFilePath+"0.txt");
-                BufferedOutputStream bos = new BufferedOutputStream(fos);
-                int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-				bos.write(mybytearray, 0, bytesRead);
-				s.close();
+                Socket socket = null;
+                int DataSend;
+		        byte[] bytes = new byte[SIZE_PER_READING];
+                socket = new Socket(n.getIp(), n.getPortSocket());
+                File file = new File(sourceFilePath+count+".txt");
+                InputStream inputStream = new FileInputStream(file);
+                OutputStream outputStream = socket.getOutputStream();
+                while ((DataSend = inputStream.read(bytes)) > 0) {
+                    outputStream.write(bytes, 0, DataSend);
+                }
+				inputStream.close();
+                outputStream.close();
+                socket.close();
 			}
 					
 		} catch (Exception e) {
