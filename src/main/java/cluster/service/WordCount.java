@@ -21,7 +21,10 @@ public class WordCount implements MapReduceService, Runnable {
         this.blockout_ = blockout;
         this.cb_ = cb;
     }
+    public WordCount()throws RemoteException {
+        super();
 
+    }
 
 
     @Override
@@ -99,8 +102,9 @@ public class WordCount implements MapReduceService, Runnable {
              } catch (InterruptedException e) {
                  e.printStackTrace();
              }
-//             executeMap(this.blockin_, this.blockout_);
-             //                 cb_.completed();
+
+             executeMap(this.blockin_, this.blockout_);
+
              System.out.println("release thread "+Thread.currentThread().getId());
              cb_.completed();
          } catch (RemoteException e) {
@@ -112,15 +116,16 @@ public class WordCount implements MapReduceService, Runnable {
 
     }
 
-     // public static void main(String[] args) {
-     //           WordCount wc = new WordCount();
-     // /*
-     //      wc.executeMap("data.txt", "result.txt");	
-     // */
-     //      Collection<String> blocks = new ArrayList<String>();
-     //      blocks.add("result1.txt");
-     //      blocks.add("result2.txt");
-     //      wc.executeReduce(blocks, "finalresult.txt");
+      public static void main(String[] args) throws RemoteException {
+       WordCount wc = new WordCount();
+        String path ="/Users/morpheus/Documents/Code/USTH/sys_arch/project/RMI/server_storage/";
+//       wc.executeMap(path+"data.txt",
+//               path+"result.txt");
+
+       Collection<String> blocks = new ArrayList<String>();
+       blocks.add(path+"result.txt");
+//       blocks.add(path+"result2.txt");
+       wc.executeReduce(blocks, path+"finalresult.txt");
        
-     // }
+      }
 }

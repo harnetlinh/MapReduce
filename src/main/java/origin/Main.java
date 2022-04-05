@@ -14,6 +14,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 public class Main {
@@ -59,7 +60,7 @@ public class Main {
         Map m = null;
         String blockin = "asd.txt";
         String blockout = "null";
-
+        //TODO: adding the right blocking, block out each node
         for (node node : nodes) {
             _node_service = serviceLookup("localhost", node.getPortRMI(),
                     "Daemon-" + node.getPortRMI());
@@ -73,6 +74,12 @@ public class Main {
         for (node node : nodes) {
             Launch.download(node);
         }
+        //TODO: Final reduce
+        Collection<String> blocks = new ArrayList<String>();
+        //TODO: download files to blocks
+//              blocks.add("result1.txt");
+//              blocks.add("result2.txt");
+        Launch.finalReduce(blocks);
 
     }
 }

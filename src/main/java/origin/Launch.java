@@ -1,9 +1,7 @@
 package origin;
 
 import cluster.node;
-import cluster.service.CallBackImpl;
-import cluster.service.CallBackService;
-import cluster.service.DaemonService;
+import cluster.service.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +16,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 public class Launch {
@@ -25,36 +24,12 @@ public class Launch {
     public final static Integer SIZE_PER_READING = 64 * 1024;
     ArrayList<node> nodes;
 
-    public static void execNodes(ArrayList<node> nodes) throws NotBoundException, RemoteException {
-        DaemonService _node_service = null;
-
-        for (node node : nodes) {
-            // Ping test
-            _node_service = serviceLookup("localhost", node.getPortRMI(), "Daemon Service " + node.getPortRMI());
-            System.out.println(_node_service.nodePing());
-
-            // Callback create
-            CallBackService cb = null;
-            Map m = null;
-            String blockin = "asd";
-            String blockout = "null";
-            try {
-
-                cb = (CallBackService) new CallBackImpl(2);
-
-                _node_service.call(m, blockin, blockout, cb);
-                ((CallBackImpl) cb).waitforall();
-
-            } catch (RemoteException ex) {
-                ex.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            // TODO:result download here
-
-        }
-
+    public static void finalReduce(Collection<String> blocks) throws RemoteException {
+        MapReduceService wc_ = new WordCount();
+//        Collection<String> blocks = new ArrayList<String>();
+//              blocks.add("result1.txt");
+//              blocks.add("result2.txt");
+        wc_.executeReduce(blocks, "finalresult.txt");
     }
 
     public static DaemonService serviceLookup(String host, int port, String name)
