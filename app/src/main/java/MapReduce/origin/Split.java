@@ -14,6 +14,7 @@ import java.io.FileReader;
 
 public class Split {
     public static final Integer SIZE_PER_READING = 64 * 1024;
+
     // send file to each node
     public static void send(node node) {
         try {
@@ -21,26 +22,30 @@ public class Split {
 
             String sourceFilePath = working_Dir + File.separator + "server_storage" + File.separator + "result";
             int count = 0;
-                Socket socket = null;
-                int DataSend;
-                byte[] bytes = new byte[SIZE_PER_READING];
-                socket = new Socket(node.getIp(), node.getPortSocket());
-                File file = new File(sourceFilePath + count + ".txt");
-                InputStream inputStream = new FileInputStream(file);
-                OutputStream outputStream = socket.getOutputStream();
-                while ((DataSend = inputStream.read(bytes)) > 0) {
-                    outputStream.write(bytes, 0, DataSend);
-                }
-                inputStream.close();
-                outputStream.close();
-                socket.close();
+            Socket socket = null;
+            int DataSend;
+            byte[] bytes = new byte[SIZE_PER_READING];
+            socket = new Socket(node.getIp(), node.getPortSocket());
+            String fileName = node.getFileName();
+            File file = new File(fileName);
+            node.setFileName(fileName);
+            System.out.println("fileName: " + node.getFileName());
+            InputStream inputStream = new FileInputStream(file);
+            OutputStream outputStream = socket.getOutputStream();
+            while ((DataSend = inputStream.read(bytes)) > 0) {
+                outputStream.write(bytes, 0, DataSend);
+            }
+            inputStream.close();
+            outputStream.close();
+            socket.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     // split file
-    public static void splitFile() throws IOException {
+    public static void splitFile(ArrayList<node> nodes) throws IOException {
         // get the file path
         String working_Dir = System.getProperty("user.dir");
 
@@ -57,9 +62,10 @@ public class Split {
                 line = br.readLine();
             }
             for (int i = 0; i < arrOfStr.size(); i++) {
-                PrintWriter writer = new PrintWriter(
-                        working_Dir + File.separator + "server_storage" + File.separator + "result" + i + ".txt",
-                        "UTF-8");
+                String fileName = working_Dir + File.separator + "server_storage" + File.separator + "data" + i + ".txt";
+                PrintWriter writer = new PrintWriter(fileName,"UTF-8");
+                System.out.println(nodes.get(i).getIp());
+                nodes.get(i).setFileName(fileName);
                 writer.println(arrOfStr.get(i));
                 writer.close();
             }

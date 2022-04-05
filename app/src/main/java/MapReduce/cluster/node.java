@@ -7,6 +7,7 @@ public class node {
     private int portSocket;
     private String ip = "localhost";
     private ServerSocket serverSocket = null;
+    private String fileName = "";
 
     public int getPortRMI() {
         return portRMI;
@@ -24,6 +25,10 @@ public class node {
         return serverSocket;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
     public void setPortRMI(int port) {
         this.portRMI = port;
     }
@@ -34,6 +39,10 @@ public class node {
 
     public void setServerSocket(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
 }

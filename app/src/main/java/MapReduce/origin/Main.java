@@ -29,7 +29,7 @@ public class Main {
     public static void main(String args[])
             throws IOException, AlreadyBoundException, NotBoundException, InterruptedException {
         // register object
-        int numberOfNodes = 3;
+        int numberOfNodes = 4;
         nodeConfig nodeConfig = new nodeConfig(numberOfNodes);
         ArrayList<node> nodes = nodeConfig.getNodes();
         DaemonService _node_service = null;
@@ -49,7 +49,7 @@ public class Main {
         }
         System.out.println("------------------------------------------------------");
 
-        Split.splitFile();
+        Split.splitFile(nodes);
         // start send file
         for (node node : nodes) {
             Split.send(node);
