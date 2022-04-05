@@ -5,11 +5,21 @@ import cluster.service.MapReduceService;
 import java.util.*;
 import java.io.*;
 
-public class WordCount implements MapReduceService {
+public class WordCount implements MapReduceService extends Runnable  {
 
      public static final String SEPARATOR = " - ";
+     public String blockin_ ;
+     public String blockout_ ;
+     public CallBackService cb_;
+     public WordCount(String blockin, String blockout, CallBackService cb )throws RemoteException {
+        super();
+        //Construct a daemon instance with node
+        this.blockin_ = blockin;
+        this.blockout_ = blockout;
+        this.cb_ = cb;
+    }
 
-
+     @Override
      public void executeMap(String blockin, String blockout) {
           // read from blockin, compute count table, write to blockout		
           HashMap<String,Integer> hm = new HashMap<String,Integer>();
@@ -38,7 +48,7 @@ public class WordCount implements MapReduceService {
           }
      }
 
-
+     @Override
      public void executeReduce(Collection<String> blocks, String finalresults) {
           // read all files in blocks, merge and write to finalresults
           HashMap<String,Integer> hm = new HashMap<String,Integer>();
@@ -68,16 +78,31 @@ public class WordCount implements MapReduceService {
           }
      }
 
-     
-     public static void main(String[] args) {
-               WordCount wc = new WordCount();
-     /*
-          wc.executeMap("data.txt", "result.txt");	
-     */
-          Collection<String> blocks = new ArrayList<String>();
-          blocks.add("result1.txt");
-          blocks.add("result2.txt");
-          wc.executeReduce(blocks, "finalresult.txt");
+     public void run()
+    {
+        try {
+            // Displaying the thread that is running
+            System.out.println(
+                "Thread " + Thread.currentThread().getId()
+                + " is running");
+        }
+        executeMap(this.blockin_, this.blockout_);
+        cb_.completed();
+        catch (Exception e) {
+            // Throwing an exception
+            System.out.println("Exception is caught");
+        }
+    }
+
+     // public static void main(String[] args) {
+     //           WordCount wc = new WordCount();
+     // /*
+     //      wc.executeMap("data.txt", "result.txt");	
+     // */
+     //      Collection<String> blocks = new ArrayList<String>();
+     //      blocks.add("result1.txt");
+     //      blocks.add("result2.txt");
+     //      wc.executeReduce(blocks, "finalresult.txt");
        
-     }
+     // }
 }
