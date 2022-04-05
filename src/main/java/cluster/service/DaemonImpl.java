@@ -16,6 +16,7 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
 
@@ -37,9 +38,8 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         // Call map exec of this node. Threading
         Thread wc = new Thread(new WordCount(blockin,blockout,cb));
         wc.start();
-//        cb.completed();
 
-        
+
         // WordCount wc = new WordCount();
         // wc.executeMap(blockin, blockout);
         // waiting for finishing
@@ -117,21 +117,26 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         }
     }
 
-//    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
-//        //register object
+    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
+        //register object
 //        System.out.println("Server starting...");
 //        startRegistry();
 //        System.out.println("here");
 //        registerObject("Daemon 1", new DaemonImpl(PORT));
 //        // Server start and listen request from Client.
 //        System.out.println("Server started!");
-//        DaemonService dae = new DaemonImpl(10010, 20010);
-//        CallBackService cb = null;
-//        Map m = null;
-//        String blockin = "asd.txt";
-//        String blockout = "null";
-//        dae.call( m,  blockin,  blockout,  cb);
+        DaemonService dae = new DaemonImpl(10010, 20010);
+        CallBackService cb = null;
+        Map m = null;
+        String blockin = "asd.txt";
+        String blockout = "null";
+        dae.call( m,  blockin,  blockout,  cb);
+        System.out.println("call first node");
 
-//    }
+        DaemonService dae2 = new DaemonImpl(10011, 20011);
+        CallBackService cb2 = null;
+        dae2.call( m,  blockin,  blockout,  cb2);
+        System.out.println("call second node");
+    }
     
 }

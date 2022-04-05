@@ -6,6 +6,7 @@ import cluster.service.MapReduceService;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 public class WordCount implements MapReduceService, Runnable {
 
@@ -88,12 +89,22 @@ public class WordCount implements MapReduceService, Runnable {
              System.out.println(
                      "Thread " + Thread.currentThread().getId()
                              + " is running");
-             executeMap(this.blockin_, this.blockout_);
              try {
-                 cb_.completed();
-             } catch (RemoteException e) {
+                 for (int i = 0; i <= 10; i = i + 1) {
+                     System.out.println("[Thread " + Thread.currentThread().getId()+"] processing ...");
+                     TimeUnit.SECONDS.sleep(1);
+                 }
+//                 TimeUnit.SECONDS.sleep(20);
+
+             } catch (InterruptedException e) {
                  e.printStackTrace();
              }
+//             executeMap(this.blockin_, this.blockout_);
+             //                 cb_.completed();
+             System.out.println("release thread "+Thread.currentThread().getId());
+             cb_.completed();
+         } catch (RemoteException e) {
+             e.printStackTrace();
          } finally {
 
          }
