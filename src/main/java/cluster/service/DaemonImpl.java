@@ -3,6 +3,8 @@ package cluster.service;
 //import cluster.service.CallBackService;
 //import cluster.service.DaemonService;
 
+import cluster.service.WordCount;
+
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -32,9 +34,10 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         
         
         // Call map exec of this node. Threading
-        Thread wc
-                = new Thread(new WordCount(blockin,blockout));
-            wc.start();
+        Thread wc = new Thread(new WordCount(blockin,blockout,cb));
+        wc.start();
+        cb.completed();
+
         
         // WordCount wc = new WordCount();
         // wc.executeMap(blockin, blockout);
@@ -42,6 +45,13 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
         
         // Callback complete
     }
+
+    @Override
+    public CallBackService createCallback() throws RemoteException{
+        CallBackService cb =  new CallBackImpl();
+        return cb;
+    };
+
     @Override
     public String uploadData()throws RemoteException{
         return "Upload done";

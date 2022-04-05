@@ -56,7 +56,7 @@ public class Split {
 			e.printStackTrace();
 		}
     }
-    public static void splitFile(){
+    public static void splitFile() throws IOException {
         //get the file path
         String working_Dir = System.getProperty("user.dir");
 
@@ -83,4 +83,3 @@ public class Split {
     }
     }
 
-}
