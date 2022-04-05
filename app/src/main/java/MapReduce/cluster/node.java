@@ -1,5 +1,5 @@
 package cluster;
-
+import java.io.File;
 import java.net.ServerSocket;
 
 public class node {
@@ -8,7 +8,11 @@ public class node {
     private String ip = "localhost";
     private ServerSocket serverSocket = null;
     private String fileName = "";
-
+    private String filePath = System.getProperty("user.dir");
+    private String blockFileName = "";
+    public node() {
+        this.filePath = System.getProperty("user.dir") + File.separator + "server_storage";
+    }
     public int getPortRMI() {
         return portRMI;
     }
@@ -29,6 +33,14 @@ public class node {
         return fileName;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public String getBlockFileName() {
+        return blockFileName;
+    }
+
     public void setPortRMI(int port) {
         this.portRMI = port;
     }
@@ -43,6 +55,14 @@ public class node {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public void setPath(String path) {
+        this.filePath = path;
+    }
+
+    public void setBlockFileName(String fileName) {
+        this.blockFileName = fileName;
     }
 
 }

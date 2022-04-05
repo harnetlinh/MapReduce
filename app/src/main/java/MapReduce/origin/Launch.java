@@ -26,10 +26,9 @@ public class Launch {
 
     public static void finalReduce(Collection<String> blocks) throws RemoteException {
         MapReduceService wc_ = new WordCount();
-//        Collection<String> blocks = new ArrayList<String>();
-//              blocks.add("result1.txt");
-//              blocks.add("result2.txt");
-        wc_.executeReduce(blocks, "finalresult.txt");
+        String working_Dir = System.getProperty("user.dir");
+        String fileName = working_Dir + File.separator + "server_storage" + File.separator + "finalresult.txt";
+        wc_.executeReduce(blocks, fileName);
     }
 
     public static DaemonService serviceLookup(String host, int port, String name)

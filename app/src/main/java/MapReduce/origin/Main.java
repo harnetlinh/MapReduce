@@ -5,9 +5,9 @@ import cluster.service.CallBackImpl;
 import cluster.service.CallBackService;
 import cluster.service.DaemonImpl;
 import cluster.service.DaemonService;
-import origin.model.ClientConfig;
 import cluster.node;
 
+import java.io.File;
 import java.io.IOException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
@@ -39,7 +39,7 @@ public class Main {
     public static void main(String args[])
             throws IOException, AlreadyBoundException, NotBoundException, InterruptedException {
         // register object
-        int numberOfNodes = 4;
+        int numberOfNodes = 3;
         nodeConfig nodeConfig = new nodeConfig(numberOfNodes);
         ArrayList<node> nodes = nodeConfig.getNodes();
         DaemonService _node_service = null;
@@ -67,13 +67,17 @@ public class Main {
 
         CallBackService cb = new CallBackImpl(numberOfNodes);
         Map m = null;
-        String blockin = "asd.txt";
-        String blockout = "null";
+        String blockin = "";
+        String blockout = "";
         //TODO: adding the right blocking, block out each node
+        int i = 0;
         for (node node : nodes) {
+            blockin = node.getFileName();
+            blockout = node.getFilePath() + File.separator+"result"+i+".txt";
+            node.setBlockFileName(blockout);
             _node_service = serviceLookup("localhost", node.getPortRMI(),
                     "Daemon-" + node.getPortRMI());
-
+            i++;
             _node_service.call(m, blockin, blockout, cb);
 
         }
@@ -88,8 +92,10 @@ public class Main {
         //TODO: Final reduce
         Collection<String> blocks = new ArrayList<String>();
         //TODO: download files to blocks
-//              blocks.add("result1.txt");
-//              blocks.add("result2.txt");
+        for(node node : nodes)
+        {
+            blocks.add(node.getBlockFileName());
+        }
         Launch.finalReduce(blocks);
 
         //Launch call here
