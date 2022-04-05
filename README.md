@@ -25,8 +25,8 @@ Steps flow of the application (see main file of origin):
 
 ## Enviroment
 ### Required
- - Java 14.0.2 check [here](https://github.com/harnetlinh/Project-Hyperspectral-Images/tree/test#java)
- - Gradle 7.3.3 check [here](https://github.com/harnetlinh/Project-Hyperspectral-Images/tree/test#gradle)
+ - Java 11 minimum
+ - Gradle 7.3.3 
  ### Setup enviroment
  #### Java
   - To check current java version
