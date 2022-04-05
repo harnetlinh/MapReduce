@@ -1,11 +1,13 @@
-package cluster;
+package cluster.service;
 
+import cluster.service.CallBackService;
 import cluster.service.MapReduceService;
 
+import java.rmi.RemoteException;
 import java.util.*;
 import java.io.*;
 
-public class WordCount implements MapReduceService extends Runnable  {
+public class WordCount implements MapReduceService, Runnable {
 
      public static final String SEPARATOR = " - ";
      public String blockin_ ;
@@ -19,7 +21,9 @@ public class WordCount implements MapReduceService extends Runnable  {
         this.cb_ = cb;
     }
 
-     @Override
+
+
+    @Override
      public void executeMap(String blockin, String blockout) {
           // read from blockin, compute count table, write to blockout		
           HashMap<String,Integer> hm = new HashMap<String,Integer>();
@@ -78,20 +82,23 @@ public class WordCount implements MapReduceService extends Runnable  {
           }
      }
 
-     public void run()
-    {
-        try {
-            // Displaying the thread that is running
-            System.out.println(
-                "Thread " + Thread.currentThread().getId()
-                + " is running");
-        }
-        executeMap(this.blockin_, this.blockout_);
-        cb_.completed();
-        catch (Exception e) {
-            // Throwing an exception
-            System.out.println("Exception is caught");
-        }
+     public void run() {
+         try {
+             // Displaying the thread that is running
+             System.out.println(
+                     "Thread " + Thread.currentThread().getId()
+                             + " is running");
+             executeMap(this.blockin_, this.blockout_);
+             try {
+                 cb_.completed();
+             } catch (RemoteException e) {
+                 e.printStackTrace();
+             }
+         } finally {
+
+         }
+
+
     }
 
      // public static void main(String[] args) {

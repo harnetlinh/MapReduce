@@ -5,4 +5,6 @@ import java.rmi.RemoteException;
 
 public interface CallBackService extends Remote {
     void completed() throws RemoteException;
+
+
 }

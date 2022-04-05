@@ -3,6 +3,8 @@ package cluster.service;
 //import cluster.service.CallBackService;
 //import cluster.service.DaemonService;
 
+import cluster.service.WordCount;
+
 import java.rmi.AlreadyBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -32,15 +34,19 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
     public void call(Map m, String blockin, String blockout, CallBackService cb) throws RemoteException {
 
         // Call map exec of this node. Threading
-        Thread wc = new Thread(new WordCount(blockin, blockout));
+        Thread wc = new Thread(new WordCount(blockin,blockout,cb));
         wc.start();
+//        cb.completed();
 
+        
         // WordCount wc = new WordCount();
         // wc.executeMap(blockin, blockout);
         // waiting for finishing
 
         // Callback complete
     }
+
+
 
     @Override
     public String uploadData() throws RemoteException {
@@ -88,12 +94,11 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
             byte[] bytes = new byte[SIZE_PER_READING];
             int dataReceived = 0;
 
-            serverSocket = new ServerSocket(PORT);
+            serverSocket = new ServerSocket(this.PORT);
             socket = serverSocket.accept();
 
             inputStream = socket.getInputStream();
-            outputStream = new FileOutputStream(working_Dir + File.separator + "server_storage" + File.separator
-                    + "received" + File.separator + "data" + this.PORT_SOCKET + ".txt");
+            outputStream = new FileOutputStream(working_Dir+File.separator+"server_storage"+File.separator+"received"+File.separator+"data"+this.PORT_SOCKET+".txt");
 
             while ((dataReceived = inputStream.read(bytes)) > 0) {
                 outputStream.write(bytes, 0, dataReceived);
@@ -124,15 +129,21 @@ public class DaemonImpl extends UnicastRemoteObject implements DaemonService {
 
     }
 
-    // public static void main (String args[]) throws RemoteException,
-    // AlreadyBoundException {
-    // //register object
-    // System.out.println("Server starting...");
-    // startRegistry();
-    // System.out.println("here");
-    // registerObject("Daemon 1", new DaemonImpl(PORT));
-    // // Server start and listen request from Client.
-    // System.out.println("Server started!");
-    // }
+//    public static void  main (String args[]) throws RemoteException, AlreadyBoundException {
+//        //register object
+//        System.out.println("Server starting...");
+//        startRegistry();
+//        System.out.println("here");
+//        registerObject("Daemon 1", new DaemonImpl(PORT));
+//        // Server start and listen request from Client.
+//        System.out.println("Server started!");
+//        DaemonService dae = new DaemonImpl(10010, 20010);
+//        CallBackService cb = null;
+//        Map m = null;
+//        String blockin = "asd.txt";
+//        String blockout = "null";
+//        dae.call( m,  blockin,  blockout,  cb);
 
+//    }
+    
 }
